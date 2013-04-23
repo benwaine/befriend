@@ -18,6 +18,9 @@ class Extension extends BehatBehatExtension {
         );
         
         $loader->load('services.xml');
+        
+        $container->setParameter("befriend.facebook_appid", $config['facebook_appid']);
+        $container->setParameter("befriend.facebook_appsecret", $config['facebook_appsecret']);
     }
     
         /**

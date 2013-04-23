@@ -6,6 +6,8 @@
         <service id="bwaine.facebook-test-user-client" class="Bwaine\FacebookTestUserClient\Client" factory-class="Bwaine\FacebookTestUserClient\Client" factory-method="factory" />
         <service id="befriend.facebook-aware-initializer" class="BefriendExtension\Context\Initializer\FacebookClientAwareInitializer">
             <argument type="service" id="bwaine.facebook-test-user-client" />
+            <argument>%befriend.facebook_appid%</argument>
+            <argument>%befriend.facebook_appsecret%</argument>
             <tag name="behat.context.initializer" />
         </service>        
     </services>

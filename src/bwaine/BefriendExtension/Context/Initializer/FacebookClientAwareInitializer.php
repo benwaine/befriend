@@ -11,12 +11,21 @@ class FacebookClientAwareInitializer implements InitializerInterface {
     
     protected $facebookClient;
     
-    public function __construct(Client $client) {
+    protected $appId;
+    
+    protected $appSecret;
+    
+    public function __construct(Client $client, $appId, $appSecret) {
         $this->facebookClient = $client;
+        $this->appId = $appId;
+        $this->appSecret = $appSecret;
     }
     
     public function initialize(ContextInterface $context) {
         $context->setClient($this->facebookClient);
+        $context->setAppId($this->appId);
+        $context->setAppSecret($this->appSecret);
+        
     }
 
     public function supports(ContextInterface $context) {

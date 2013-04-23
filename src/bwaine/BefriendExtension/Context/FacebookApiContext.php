@@ -10,6 +10,10 @@ class FacebookApiContext extends BehatContext implements FacebookClientAwareInte
 
     protected $facebookClient;
     
+    protected $appId;
+    
+    protected $appSecret;
+    
     public function setClient(Client $client) {
         $this->facebookClient = $client;
     }
@@ -23,7 +27,15 @@ class FacebookApiContext extends BehatContext implements FacebookClientAwareInte
         
         return $this->facebookClient;
     }
-    
+
+    public function setAppId($id) {
+        $this->appId = $id;
+    }
+
+    public function setAppSecret($secret) {
+        $this->setAppSecret = $secret;
+    }
+
     /**
      * @Given /^the facebook user "([^"]*)" exists$/
      */
