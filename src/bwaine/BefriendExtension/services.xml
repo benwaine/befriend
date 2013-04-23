@@ -4,6 +4,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <service id="bwaine.facebook-test-user-client" class="Bwaine\FacebookTestUserClient\Client" factory-class="Bwaine\FacebookTestUserClient\Client" factory-method="factory" />
-        <service id="befriend.context.facebookapi" class="BefriendExtension\Context\FacebookApiContext" />
+        <service id="befriend.facebook-aware-initializer" class="BefriendExtension\Context\Initializer\FacebookClientAwareInitializer">
+            <argument type="service" id="bwaine.facebook-test-user-client" />
+            <tag name="behat.context.initializer" />
+        </service>        
     </services>
 </container>
