@@ -14,6 +14,10 @@ class FacebookApiContext extends BehatContext implements FacebookClientAwareInte
     
     protected $appSecret;
     
+    protected $appAccessToken;
+    
+    protected $userRegistry = array();
+    
     public function setClient(Client $client) {
         $this->facebookClient = $client;
     }
@@ -33,14 +37,47 @@ class FacebookApiContext extends BehatContext implements FacebookClientAwareInte
     }
 
     public function setAppSecret($secret) {
-        $this->setAppSecret = $secret;
+        $this->appSecret = $secret;
+    }
+    
+    protected function getAppAccessToken() {
+
+        if(!isset($this->appAccessToken)) {
+
+            $command = $this->facebookClient->getCommand(
+                    'ObtainAppAccessToken', 
+                    array(
+                        "client_id" => $this->appId, 
+                        "client_secret" => $this->appSecret)
+                    );
+            
+            $response = $command->execute();
+            
+            $this->appAccessToken = $response['access_token'];
+        }
+        
+        return $this->appAccessToken;
     }
 
     /**
      * @Given /^the facebook user "([^"]*)" exists$/
      */
-    public function theFacebookUserExists($arg1)
+    public function theFacebookUserExists($name)
     {
+        $token = $this->getAppAccessToken();
+        
+        $command = $this->facebookClient->getCommand(
+                'CreateUser',
+                array(
+                    "appId" => $this->appId,
+                    "access_token" => $token,
+                    "name" => $name)
+                
+                );
+        
+        $response = $command->execute();
+        
+        $this->userRegistry[$name] = $response;
     }
 }
 
